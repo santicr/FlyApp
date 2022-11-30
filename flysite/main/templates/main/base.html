@@ -20,9 +20,13 @@
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                     </ul>
-                    <a href="#"><button class="btn btn-success" type="button">Iniciar Sesion</button></a>
-                    &nbsp;
-                    <a href="#"><button class="btn btn-danger" type="submit">Registrarse</button></a>
+                    {% if not login %}
+                        <a href="{% url 'login' %}"><button class="btn btn-success" type="button">Iniciar Sesion</button></a>
+                        &nbsp;
+                    {% endif %}
+                    {% if not register %}
+                        <a href="{% url 'register' %}"><button class="btn btn-danger" type="submit">Registrarse</button></a>
+                    {% endif %}    
                 </div>
             </div>
         </nav>
