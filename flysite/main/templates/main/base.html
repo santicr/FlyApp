@@ -20,16 +20,78 @@
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                     </ul>
-                    {% if not login %}
-                        <a href="{% url 'login' %}"><button class="btn btn-success" type="button">Iniciar Sesion</button></a>
-                        &nbsp;
-                    {% endif %}
-                    {% if not register %}
-                        <a href="{% url 'register' %}"><button class="btn btn-danger" type="submit">Registrarse</button></a>
-                    {% endif %}    
+                    {% if not user.is_authenticated %}
+                        {% if not login %}
+                            <a href="{% url 'login' %}"><button class="btn btn-success" type="button">Iniciar Sesion</button></a>
+                            &nbsp;
+                        {% endif %}
+                        {% if not register %}
+                            <a href="{% url 'register' %}"><button class="btn btn-danger" type="submit">Registrarse</button></a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'logout' %}"><button class="btn btn-danger" type="submit">Cerrar Sesión</button></a>
+                    {% endif %}  
                 </div>
             </div>
         </nav>
+        {% block body %}{% endblock %}
+        {% for m in messages %}
+            {% if m.tags == 'error' %}
+                <div class="toast-container top-12 end-0 p-1">
+                    <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ m }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if m.tags == 'success' %}
+                <div class="toast-container top-12 end-0 p-1">
+                    <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ m }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if m.tags == 'info' %}
+                <div class="toast-container top-12 end-0 p-1">
+                    <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ m }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if m.tags == 'warning' %}
+                <div class="toast-container top-12 end-0 p-1">
+                    <div class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ m }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <script>
+            window.onload = (event) => {
+                let myAlert = document.querySelector('.toast');
+                let bsAlert = new bootstrap.Toast(myAlert);
+                bsAlert.show();
+            }
+        </script>
     </body>
 </html>
