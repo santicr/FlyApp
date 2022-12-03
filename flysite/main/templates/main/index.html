@@ -1,9 +1,35 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-    Index
+Index
 {% endblock %}
 
 {% block body %}
-    
+<div class="container">
+    <div class="row">
+        {% for flight in flights %}
+            <div class="col-6">
+                <div class="card">
+                    <h5 class="card-header">{{ flight.airline }}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Desde {{ flight.source }}</h5>
+                        <h5 class="card-title">Hasta {{ flight.destination }}</h5>
+                        <h5 class="card-title">Costo {{ flight.cost }} por persona</h5>
+                        {% if flight.number_of_connections %}
+                            <p>
+                                Número de conexiones: {{ flight.number_of_connections }} <br/>
+                                Conexiones: 
+                                {% for city in flight.connections.all %}
+                                    {{ city.name }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+                        <p class="card-text">{{ flight.description }}</p>
+                        <a href="{% url 'add_ticket' flight.id %}" class="btn btn-primary">Añadir al perfil</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

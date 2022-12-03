@@ -1,9 +1,11 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-    Perfil
+Perfil
 {% endblock %}
 
 {% block body %}
-    
+    {% for key, val in request.session.items %}
+        clave -> {{ key }} -> {{ val }} <br>
+    {% endfor %}
 {% endblock %}
