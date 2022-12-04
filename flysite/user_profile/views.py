@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import NewUserCreationForm, NewAuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages as m
+from ticket.models import Ticket
+from datetime import datetime, date
 
 # Create your views here.
 def login_req(req):
@@ -51,4 +53,12 @@ def register(req):
     return redirect('index')
 
 def profile(req):
-    return render(req, 'user_profile/profile.html')
+    time_now = datetime.now()
+    time_compare = date(int(time_now.year), int(time_now.month), int(time_now.day))
+    old_tickets = Ticket.objects.filter(user_profile = req.user).filter(created__lte = time_compare)
+    pending_tickets = Ticket.objects.filter(user_profile = req.user).filter(paid = False)
+    print(pending_tickets)
+    paid_tickets = Ticket.objects.filter(user_profile = req.user).filter(paid = True)
+    return render(req, 'user_profile/profile.html',{
+        'pending_tickets': pending_tickets, 'paid_tickets': paid_tickets, 'old_tickets': old_tickets
+    })

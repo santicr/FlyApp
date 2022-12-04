@@ -10,8 +10,11 @@ Registro
         <div class="col-6">
             <form action="{% url 'register' %}" method="POST">
                 {% csrf_token %}
+                <center>
+                    <h3>Registro</h3>
+                </center>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
+                    <label for="exampleInputEmail1" class="form-label"><strong>Nombre de usuario</strong></label>
                     {{ form.username }}
                     <div id="emailHelp" class="form-text">Nunca compartiremos tu usuario con alguien más</div>
                 </div>

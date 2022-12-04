@@ -5,4 +5,37 @@ Añadir ticket
 {% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form action="{% url 'add_ticket' flight_id=flight_id %}" method="POST">
+                <center>
+                    <h3>Información de la persona</h3>
+                </center>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"><strong>Nombre</strong></label>
+                    {{ form.name }}
+                    <div id="emailHelp" class="form-text">Ingresa el nombre de quien viaja</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label"><strong>Apellido paterno</strong></label>
+                    {{ form.lastname1 }}
+                    <div id="emailHelp" class="form-text">Introduce el apellido paterno de quien viaja</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"><strong>Apellido materno</strong></label>
+                    {{ form.lastname2 }}
+                    <div id="emailHelp" class="form-text">Ingresa el apellido materno de quien viaja</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"><strong>Número de identificación</strong></label>
+                    {{ form.cc }}
+                    <div id="emailHelp" class="form-text">Ingresa el número de identificación de quien viaja</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir tiquete</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

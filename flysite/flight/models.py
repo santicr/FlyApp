@@ -18,6 +18,9 @@ class Flight(models.Model):
     number_of_connections = models.IntegerField(default=0)
     destination = models.CharField(max_length=100)
     cost = models.FloatField()
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'Vuelo #{self.id} desde {self.source} con {self.number_of_connections} conexiones'
+        if self.number_of_connections == 0:
+            return f'Vuelo #{self.id} desde {self.source} hasta {self.destination}'
+        return f'Vuelo #{self.id} desde {self.source} con {self.number_of_connections} conexiones hasta {self.destination}' 
