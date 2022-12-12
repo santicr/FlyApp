@@ -3,6 +3,7 @@ from .forms import NewUserCreationForm, NewAuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages as m
 from ticket.models import Ticket
+from flight.models import Flight
 from datetime import datetime, date
 
 # Create your views here.
@@ -52,13 +53,26 @@ def register(req):
         return render(req, 'user_profile/register.html', {'register': 1, 'form': form})
     return redirect('index')
 
-def profile(req):
+def comp_lt(ticket: Ticket):
+    time = ticket.flight.departure_time
+    ticket_time_compare = (date(int(time.year), int(time.month), int(time.day)))
     time_now = datetime.now()
     time_compare = date(int(time_now.year), int(time_now.month), int(time_now.day))
-    old_tickets = Ticket.objects.filter(user_profile = req.user).filter(created__lte = time_compare)
-    pending_tickets = Ticket.objects.filter(user_profile = req.user).filter(paid = False)
-    print(pending_tickets)
-    paid_tickets = Ticket.objects.filter(user_profile = req.user).filter(paid = True)
-    return render(req, 'user_profile/profile.html',{
-        'pending_tickets': pending_tickets, 'paid_tickets': paid_tickets, 'old_tickets': old_tickets
-    })
+    return ticket_time_compare < time_compare
+
+def comp_gte(ticket: Ticket):
+    time = ticket.flight.departure_time
+    ticket_time_compare = (date(int(time.year), int(time.month), int(time.day)))
+    time_now = datetime.now()
+    time_compare = date(int(time_now.year), int(time_now.month), int(time_now.day))
+    return ticket_time_compare >= time_compare
+
+def profile(req):
+    if req.user.is_authenticated:
+        old_tickets = list(filter(comp_lt, Ticket.objects.filter(user_profile = req.user)))
+        pending_tickets = Ticket.objects.filter(user_profile = req.user).filter(paid = False)
+        paid_tickets = list(filter(comp_gte, Ticket.objects.filter(user_profile = req.user).filter(paid = True)))
+        return render(req, 'user_profile/profile.html',{
+            'pending_tickets': pending_tickets, 'paid_tickets': paid_tickets, 'old_tickets': old_tickets
+        })
+    return redirect('index')

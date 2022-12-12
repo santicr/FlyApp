@@ -12,8 +12,8 @@ Index
                 <div class="card">
                     <h5 class="card-header">{{ flight.airline }}</h5>
                     <div class="card-body">
-                        <h5 class="card-title">Desde {{ flight.source }}</h5>
-                        <h5 class="card-title">Hasta {{ flight.destination }}</h5>
+                        <h5 class="card-title">Desde {{ flight.source }} a las {{ flight.departure_time }} horas</h5>
+                        <h5 class="card-title">Hasta {{ flight.destination }} a las {{ flight.arrival_time }} horas</h5>
                         <h5 class="card-title">Costo {{ flight.cost }} por persona</h5>
                         {% if flight.number_of_connections %}
                             <p>

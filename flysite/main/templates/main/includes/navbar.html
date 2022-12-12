@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -7,7 +7,9 @@
             <a class="navbar-brand" href="{% url 'index' %}">FlyApp</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a tabindex="0" class="nav-link active" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Dismissible popover" data-bs-content="And here's some amazing content. It's very engaging. Right? asdiasdasdiasdisada">
+                        Buscar
+                    </a>
                 </li>
             </ul>
             {% if not user.is_authenticated %}
@@ -26,3 +28,5 @@
         </div>
     </div>
 </nav>
+&nbsp;
+&nbsp;

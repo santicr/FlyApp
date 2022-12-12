@@ -9,7 +9,7 @@ Perfil
     <div class="row">
         <div class="col-6">
             <table class="table">
-            <h3>Vuelos vigentes</h3>
+            <h3>Vuelos pendientes</h3>
             <thead>
                 <tr>
                     <th scope="col">Tiquete</th>
@@ -20,8 +20,8 @@ Perfil
                     <th scope="col">Pagar</th>
                 </tr>
             </thead>
-            {% for ticket in pending_tickets %}
-                <tbody class="table-group-divider">
+            <tbody class="table-group-divider">
+                {% for ticket in pending_tickets %}
                     <tr>
                         <td>{{ ticket.id }}</td>
                         <td>{{ ticket.flight.id }}</td>
@@ -30,43 +30,19 @@ Perfil
                         <td>{{ ticket.flight.number_of_connections }}</td>
                         <td>
                             <form action="{% url 'pay_ticket' ticket_id=ticket.id %}" method="POST">
+                                {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm">Pagar</button>
                             </form>
                         </td>
                     </tr>
-                </tbody>
-            {% endfor %}
+                {% endfor %}
+            </tbody>
             </table>
         </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
+        <!-- Falta la configuración de los vuelos preferidos por usuario -->
         <div class="col-6">
-            {% for ticket in paid_tickets %}
-                <h3>Vuelos vigentes</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Tiquete</th>
-                            <th scope="col">Vuelo</th>
-                            <th scope="col">Desde</th>
-                            <th scope="col">Hasta</th>
-                            <th scope="col">Conexiones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <td>{{ ticket.id }}</td>
-                            <td>{{ ticket.flight.id }}</td>
-                            <td>{{ ticket.flight.source }}</td>
-                            <td>{{ ticket.flight.destination }}</td>
-                            <td>{{ ticket.flight.number_of_connections }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            {% endfor %}
+            <h3>Configuración de vuelos preferidos</h3>
+            <input class="" />
         </div>
     </div>
 </div>
@@ -74,8 +50,7 @@ Perfil
 <div class="container">
     <div class="row">
         <div class="col-6">
-            {% for ticket in old_tickets %}
-                <h3>Vuelos pasados</h3>
+            <h3>Vuelos vigentes</h3>
                 <table class="table">
                     <thead>
                         <tr>
@@ -87,16 +62,47 @@ Perfil
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr>
-                            <td>{{ ticket.id }}</td>
-                            <td>{{ ticket.flight.id }}</td>
-                            <td>{{ ticket.flight.source }}</td>
-                            <td>{{ ticket.flight.destination }}</td>
-                            <td>{{ ticket.flight.number_of_connections }}</td>
-                        </tr>
+                        {% for ticket in paid_tickets %}
+                            <tr>
+                                <td>{{ ticket.id }}</td>
+                                <td>{{ ticket.flight.id }}</td>
+                                <td>{{ ticket.flight.source }}</td>
+                                <td>{{ ticket.flight.destination }}</td>
+                                <td>{{ ticket.flight.number_of_connections }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h3>Vuelos pasados</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tiquete</th>
+                            <th scope="col">Vuelo</th>
+                            <th scope="col">Desde</th>
+                            <th scope="col">Hasta</th>
+                            <th scope="col">Conexiones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for ticket in old_tickets %}
+                            <tr>
+                                <td>{{ ticket.id }}</td>
+                                <td>{{ ticket.flight.id }}</td>
+                                <td>{{ ticket.flight.source }}</td>
+                                <td>{{ ticket.flight.destination }}</td>
+                                <td>{{ ticket.flight.number_of_connections }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         </div>
     </div>
 </div>
