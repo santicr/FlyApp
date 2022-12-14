@@ -81,28 +81,28 @@ Perfil
     <div class="row">
         <div class="col-6">
             <h3>Vuelos pasados</h3>
-                <table class="table">
-                    <thead>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Tiquete</th>
+                        <th scope="col">Vuelo</th>
+                        <th scope="col">Desde</th>
+                        <th scope="col">Hasta</th>
+                        <th scope="col">Conexiones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for ticket in old_tickets %}
                         <tr>
-                            <th scope="col">Tiquete</th>
-                            <th scope="col">Vuelo</th>
-                            <th scope="col">Desde</th>
-                            <th scope="col">Hasta</th>
-                            <th scope="col">Conexiones</th>
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ ticket.flight.id }}</td>
+                            <td>{{ ticket.flight.source }}</td>
+                            <td>{{ ticket.flight.destination }}</td>
+                            <td>{{ ticket.flight.number_of_connections }}</td>
                         </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        {% for ticket in old_tickets %}
-                            <tr>
-                                <td>{{ ticket.id }}</td>
-                                <td>{{ ticket.flight.id }}</td>
-                                <td>{{ ticket.flight.source }}</td>
-                                <td>{{ ticket.flight.destination }}</td>
-                                <td>{{ ticket.flight.number_of_connections }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
