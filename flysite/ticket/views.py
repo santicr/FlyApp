@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import Ticket
 from flight.models import Flight
 from .forms import TicketForm
+from threading import Lock
 
 # Create your views here.
 def add_ticket(req, flight_id):
@@ -27,9 +28,18 @@ def add_ticket(req, flight_id):
     return redirect('login')
 
 def pay_ticket(req, ticket_id):
+    lock = Lock()
+    lock.acquire()
+
     ticket = Ticket.objects.get(id = ticket_id)
-    ticket.flight.quantity -= 1
-    ticket.paid = True
-    ticket.flight.save()
-    ticket.save()
+    if ticket.flight.quantity <= 0:
+        ticket.delete()
+        return HttpResponse('Lo siento, ya se han comprado estos boletos justo antes de tu compra')
+    else:
+        ticket.flight.quantity -= 1
+        ticket.paid = True
+        ticket.flight.save()
+        ticket.save()
+        
+    lock.release()
     return redirect('profile')
