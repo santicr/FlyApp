@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Ticket
+from flight.models import Flight
 from .forms import TicketForm
 
 # Create your views here.
@@ -27,6 +28,8 @@ def add_ticket(req, flight_id):
 
 def pay_ticket(req, ticket_id):
     ticket = Ticket.objects.get(id = ticket_id)
+    ticket.flight.quantity -= 1
     ticket.paid = True
+    ticket.flight.save()
     ticket.save()
     return redirect('profile')
