@@ -19,7 +19,9 @@ def index(req):
         year_today = int(today.year)
         day_today = int(today.day)
         month_today = int(today.month)
-        if date(year, month, day) + timedelta(days = 1) <= date(year_today, month_today, day_today) and not ticket.paid:
+        cond1 = date(year, month, day) + timedelta(days = 1) <= date(year_today, month_today, day_today) and not ticket.paid
+        cond2 = ticket.flight.quantity
+        if (cond1) or (cond2 <= 0):
             tickets_to_delete[ticket.id] = 1
 
     for k in tickets_to_delete:
